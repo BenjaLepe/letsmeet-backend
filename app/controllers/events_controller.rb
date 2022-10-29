@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[update create destroy]
 
   def index
     events = Event.all
@@ -21,7 +21,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    if is_author && @event.update(event_params)
+    if current_user.id == @event.author_id && @event.update(event_params)
       render json: @event
     else
       render json: { message: @event.errors }, status: :bad_request
@@ -34,9 +34,6 @@ class EventsController < ApplicationController
   end
 
   private
-  def is_author
-    current_user.id == @event.author_id
-  end
 
   def set_event
     @event = Event.find(params[:id])
