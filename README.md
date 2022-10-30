@@ -16,6 +16,9 @@ rails s
 # List all routes
 rails routes
 
+# Run tests
+rspec
+
 # Generate migrations
 rails g migrate <Name>
 
