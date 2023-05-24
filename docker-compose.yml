@@ -1,0 +1,29 @@
+version: '3'
+services:
+  db_dev:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=letsmeet_dev
+    volumes:
+      - db_dev_data:/var/lib/postgresql/data
+  db_test:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=letsmeet_test
+    volumes:
+      - db_test_data:/var/lib/postgresql/data
+  web:
+    platform: linux/x86_64
+    build: .
+    volumes:
+      - .:/letsmeet
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db_dev
+
+volumes:
+  db_dev_data:
+  db_test_data:
