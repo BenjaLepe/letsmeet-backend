@@ -1,4 +1,6 @@
 class Users::UsersController < ApplicationController
+  before_action :authenticate_user!, only: %i[me tickets]
+
   def index
     respond_with User.all
   end
